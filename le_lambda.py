@@ -31,15 +31,14 @@ def lambda_handler(event, context):
         raise SystemExit
 
     else:
-        # Get the object from the event and show its content type
-        bucket = event['Records'][0]['s3']['bucket']['name']
-        key = urllib.unquote_plus(event['Records'][0]['s3']['object']['key'])\
-            .decode('utf8')
 
         try:
-            response = s3.get_object(Bucket=bucket, Key=key)
+            # Define the key event attributes we care about.
+            bucket = event['Records'][0]['s3']['bucket']['name']
+            key = urllib.unquote_plus(event['Records'][0]['s3']['object']['key'])\
+                .decode('utf8')
 
-            size = response['ContentLength']
+            size = event['Records'][0]['s3']['object']['size']
             size_units = "KB"
             if size_as_mb:
                 size = float(size) / float(1000000)
@@ -53,7 +52,10 @@ def lambda_handler(event, context):
 
             s.sendall(msg)
 
+            # NOTE: If you choose to send the body then your Lambda function
+            # will need to load the whole object, which will increase cost.
             if send_body:
+                response = s3.get_object(Bucket=bucket, Key=key)
                 body = response['Body']
                 data = body.read()
                 # If the name has a .gz extension, then decompress the data
