@@ -2,6 +2,8 @@
 This allows you to build AWS Lambda bundles (in .zip form) that will send
 notifications of S3 activity to LogEntries.
 
+Core based off [rapid7/le_lambda](https://github.com/rapid7/le_lambda)
+
 ###### Example use cases:
 * Getting notified about database backups stored in S3
 
