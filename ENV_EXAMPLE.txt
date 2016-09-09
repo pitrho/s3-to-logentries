@@ -1,0 +1,4 @@
+log_token="4985fba0-4d8d-4b8d-a4d7-46dc35fcfdd8"
+send_body=False
+size_as_mb=True
+log_type_name="backup-activity"
